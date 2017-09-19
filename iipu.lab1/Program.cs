@@ -16,16 +16,23 @@ namespace iipu.lab1
                 ManagementObjectCollection managers = searcher.Get();
 
                 Regex pciDeviceRegex = new Regex(@"^PCI\\*");
+                string pciDidVidRegexPattern = @"(_)|(&)";
+                const int vidPos = 2;
+                const int didPos = 6;
+                
                 foreach (var manager in managers)
                 {
-                    string devID = manager["DeviceID"].ToString();
+                    string devId = manager["DeviceID"].ToString();
                     
-                    if (!pciDeviceRegex.IsMatch(devID))
+                    if (!pciDeviceRegex.IsMatch(devId))
                     {
                         continue;
                     }
-                    
-                    Console.WriteLine("Device ID field: {0}", devID);
+
+                    var stringParts = Regex.Split(devId, pciDidVidRegexPattern);
+                    Console.WriteLine("VID field: {0}", stringParts[vidPos]);
+                    Console.WriteLine("DID field: {0}", stringParts[didPos]);
+                    Console.WriteLine("------------------------------------");
                 }
             }
         }
