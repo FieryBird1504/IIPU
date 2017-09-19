@@ -9,6 +9,38 @@ namespace iipu.lab1
 {
     internal class Program
     {
+        const string dbFileName = "pci.ids.txt";
+        const string vidRegexPattern = @"";
+        const string didRegexPattern = "\t";
+        public static void WorkWithFile(string vid, string did)
+        {
+            using (var fs = File.Open(dbFileName, FileMode.Open))
+            {
+                using (var sr = new StreamReader(fs))
+                {
+                    while (!sr.EndOfStream)
+                    {
+                        var line = sr.ReadLine();
+                        //TODO: find VID
+                    }
+                    
+                    while (!sr.EndOfStream)
+                    {
+                        var line = sr.ReadLine();
+                        //TODO: find DID
+                    }
+
+                    if (sr.EndOfStream)
+                    {
+                        Console.WriteLine("VID in HEX: {0}", vid);
+                        Console.WriteLine("DID in HEX: {0}", did);
+                    }
+                }
+            }
+
+            
+        }
+        
         public static void Main(string[] args)
         {
             Console.WriteLine("PCI devices:");
@@ -24,10 +56,6 @@ namespace iipu.lab1
                     string pciDidVidRegexPattern = @"(_)|(&)";
                     const int vidPos = 2;
                     const int didPos = 6;
-                    const string dbFileName = "pci.ids.txt";
-
-                    string vidRegexPattern = @"";
-                    string didRegexPattern = "\t";
 
                     foreach (var manager in managers)
                     {
@@ -40,16 +68,7 @@ namespace iipu.lab1
 
                         var stringParts = Regex.Split(devId, pciDidVidRegexPattern);
 
-                        using (var fs = File.Open(dbFileName, FileMode.Open))
-                        {
-                            using (var sr = new StreamReader(fs))
-                            {
-                                sr.ReadLine();
-                            }
-                        }
-
-                        Console.WriteLine("VID field: {0}", stringParts[vidPos]);
-                        Console.WriteLine("DID field: {0}", stringParts[didPos]);
+                        WorkWithFile(stringParts[vidPos], stringParts[didPos]);
                         Console.WriteLine("------------------------------------");
                     }
                 }
@@ -58,6 +77,9 @@ namespace iipu.lab1
             {
                 Console.WriteLine("Error: {0}", e.Message);
             }
+
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
         }
     }
 }
