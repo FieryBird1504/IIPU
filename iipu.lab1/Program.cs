@@ -10,8 +10,8 @@ namespace iipu.lab1
     internal class Program
     {
         const string dbFileName = "pci.ids.txt";
-        const string vidRegexPattern = @"";
-        const string didRegexPattern = "\t";
+        const string vidRegexPattern = @"^";
+        const string didRegexPattern = "^\t";
         public static void WorkWithFile(string vid, string did)
         {
             using (var fs = File.Open(dbFileName, FileMode.Open))
@@ -20,14 +20,24 @@ namespace iipu.lab1
                 {
                     while (!sr.EndOfStream)
                     {
+                        var findRegex = new Regex(vidRegexPattern + vid.ToLower());
                         var line = sr.ReadLine();
-                        //TODO: find VID
+                        if (findRegex.IsMatch(line))
+                        {
+                            Console.WriteLine("VID: {0}", line.Substring(vidRegexPattern.Length - 1));
+                            break;
+                        }
                     }
                     
                     while (!sr.EndOfStream)
                     {
+                        var findRegex = new Regex(didRegexPattern + did.ToLower());
                         var line = sr.ReadLine();
-                        //TODO: find DID
+                        if (findRegex.IsMatch(line))
+                        {
+                            Console.WriteLine("DID: {0}", line.Substring(didRegexPattern.Length - 1));
+                            break;
+                        }
                     }
 
                     if (sr.EndOfStream)
