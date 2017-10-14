@@ -22,7 +22,7 @@ using System.Management.Automation;
 using System.Management.Automation.Runspaces;
 
 
-namespace SiperMegaApplication
+namespace iipulab3
 {
     public partial class MainWindow : Window
     {
